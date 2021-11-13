@@ -181,8 +181,55 @@ _book
 <h2 id="发布到github-pages">发布到Github pages</h2>
 <ul>
 <li>创建一个public的仓库</li>
+<li>在 <a href="https://github.com/settings/tokens" target="_blank">https://github.com/settings/tokens</a> 创建一个token，要选中 <code>repo</code> 这个权限，设置不要过期，并且复制好这个token</li>
+<li>在你刚创建的仓库中，导航到 &lt;你的仓库地址/settings/secrets/actions&gt;，定义这个token作为密钥，命名为 <code>GITBOOK</code></li>
 <li>创建远程仓库链接 <code>git remote add origin 你的仓库地址</code></li>
 <li>提交更新到Github <code>git add .</code>, 然后 <code>git commit -m &apos;初始化&apos;</code>, 最后 <code>git push origin master</code></li>
+<li><p>创建一个Github Action，内容如下</p>
+<pre><code>  # This is a basic workflow to help you get started with Actions
+
+  name: publish gitbook to pages
+
+  # Controls when the workflow will run
+  on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+      branches: [ master ]
+  pull_request:
+      branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  jobs:
+  # This workflow contains a single job called &quot;build&quot;
+  build:
+      # The type of runner that the job will run on
+      runs-on: ubuntu-latest
+
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Install &amp; Build
+          run: |
+          npm install
+          npm run build
+
+      - name: Deploy
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+          github_token: $
+          publish_dir: ./_book
+</code></pre></li>
+<li><p>保存这个Action后，它会先自动运行一次，你稍后就可以在 &lt;你的仓库地址/settings/pages&gt; 查看所生成的Github pages网站信息了。例如当前这个模板网站，运行效果如下</p>
+<p>  <img src="images/2021-11-13-10-14-03.png" alt></p>
+</li>
+<li><p>到这里为止，我们就完整地了解了如何编写电子书并且持续发布的流程了，更多细节还可以参考 <a href="https://honkit.netlify.app/" target="_blank">https://honkit.netlify.app/</a></p>
+</li>
 </ul>
 
                                 
@@ -219,7 +266,7 @@ _book
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"简介","level":"1.1","depth":1,"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"作者名称","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"我的书籍标题","language":"zh","gitbook":"*","description":"书籍的描述信息，可用于SEO"},"file":{"path":"README.md","mtime":"2021-11-13T02:10:45.957Z","type":"markdown"},"gitbook":{"version":"3.6.23","time":"2021-11-13T02:11:31.609Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"简介","level":"1.1","depth":1,"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"作者名称","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"我的书籍标题","language":"zh","gitbook":"*","description":"书籍的描述信息，可用于SEO"},"file":{"path":"README.md","mtime":"2021-11-13T02:16:43.642Z","type":"markdown"},"gitbook":{"version":"3.6.23","time":"2021-11-13T02:16:53.277Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
