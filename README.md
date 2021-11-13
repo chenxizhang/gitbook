@@ -48,7 +48,6 @@ _book
 - 创建远程仓库链接 `git remote add origin 你的仓库地址`
 - 提交更新到Github `git add .`, 然后 `git commit -m '初始化'`, 最后 `git push origin master`
 - 创建一个Github Action，内容如下
-
     ```
     # This is a basic workflow to help you get started with Actions
 
@@ -56,39 +55,39 @@ _book
 
     # Controls when the workflow will run
     on:
-    # Triggers the workflow on push or pull request events but only for the master branch
-    push:
+      # Triggers the workflow on push or pull request events but only for the master branch
+      push:
         branches: [ master ]
-    pull_request:
+      pull_request:
         branches: [ master ]
 
-    # Allows you to run this workflow manually from the Actions tab
-    workflow_dispatch:
+      # Allows you to run this workflow manually from the Actions tab
+      workflow_dispatch:
 
     # A workflow run is made up of one or more jobs that can run sequentially or in parallel
     jobs:
-    # This workflow contains a single job called "build"
-    build:
+      # This workflow contains a single job called "build"
+      build:
         # The type of runner that the job will run on
         runs-on: ubuntu-latest
 
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
-        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-        - uses: actions/checkout@v2
+          # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+          - uses: actions/checkout@v2
 
-        # Runs a single command using the runners shell
-        - name: Install & Build
+          # Runs a single command using the runners shell
+          - name: Install & Build
             run: |
-            npm install
-            npm run build
-
-        - name: Deploy
+              npm install
+              npm run build
+          - name: Deploy
             uses: peaceiris/actions-gh-pages@v3
             with:
-            github_token: ${{ secrets.GITBOOK }}
-            publish_dir: ./_book
+              github_token: ${{ secrets.GITBOOK }}
+              publish_dir: ./_book
     ```
+    
 - 保存这个Action后，它会先自动运行一次，你稍后就可以在 <你的仓库地址/settings/pages> 查看所生成的Github pages网站信息了。例如当前这个模板网站，运行效果如下
 
     ![](images/2021-11-13-10-14-03.png)
