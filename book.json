@@ -2,5 +2,14 @@
     "title": "我的书籍标题",
     "author": "作者名称",
     "description": "书籍的描述信息，可用于SEO",
-    "language": "zh"
+    "language": "zh",
+    "root": "docs",
+    "plugins": [
+        "honkit-plugin-google-analytics"
+    ],
+    "pluginsConfig": {
+        "analytics": {
+            "uid": "UA-194975404-1"
+        }
+    }
 }

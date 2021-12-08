@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "honkit": "^3.6.23"
+    "honkit": "^3.6.23",
+    "honkit-plugin-google-analytics": "^1.0.0"
   }
 }
